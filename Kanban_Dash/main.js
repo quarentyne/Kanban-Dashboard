@@ -1,5 +1,7 @@
 'use strict'
 
+// import { openModal } from './modal/modal.js';
+
 const btn = document.querySelector('#add-btn');
 const input = document.querySelector('#input-form');
 const todo = document.querySelector('#main-todo');
@@ -172,7 +174,7 @@ function startTask(index) {
         fillTodo();
         fillInprocess();
     } else {
-        alert('Слишком много задач выполняется одновременно')
+        openModal();
     }
 }
 function endTask(index) {
