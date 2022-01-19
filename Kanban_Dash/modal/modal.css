@@ -3,7 +3,7 @@
   padding: 0;
 }
 .modalWrapper {
-  display: flex;
+  display: none;
   flex-direction: center;
   justify-content: center;
   align-items: center;
@@ -14,6 +14,10 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 20;
+  opacity: 0;
+  transition: 0.5s ease;
+  animation: add 0.5s 1;
+  animation-fill-mode: forwards;
 }
 .modalWrapper.active {
   display: flex;
@@ -45,14 +49,13 @@
 }
 .inside_block img {
   display: block;
-  width: 65%;
-  height: 75%;
+  width: 100%;
 }
-.text {
+/* .text {
   text-align: center;
   font-size: 25px;
   font-weight: bold;
-}
+} */
 .button {
   margin-top: 25px;
   text-align: center;
@@ -68,4 +71,12 @@
 #agree:hover {
   border: 2px #1ea5ce solid;
   cursor: pointer;
+}
+@keyframes add {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

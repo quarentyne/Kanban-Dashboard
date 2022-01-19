@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./modal/modal.css" />
     <title>Kanban</title>
   </head>
   <body>
@@ -57,7 +58,23 @@
         </div>
       </div>
     </main>
-    <!-- <script type="module" src="modal/modal.js"></script> -->
+
+    <div class="modalWrapper">
+      <div class="backBlack"></div>
+      <div class="modalContent">
+        <div class="inside_block">
+          <div class="content">
+            <img src="modal/no_text.gif" alt="" />
+            <!-- <div class="text">Не бери на себя больше 3-ёх задач!</div> -->
+          </div>
+          <div class="button">
+            <button type="submit" id="agree">Понятно</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="modal/modal.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
