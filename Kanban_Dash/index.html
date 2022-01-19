@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Kanban</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Kanban</h1>
+      <div class="form">
+        <input
+          type="text"
+          class="input"
+          id="input-form"
+          placeholder="Что добавить?"
+        />
+        <button type="submit" id="add-btn">Добавить</button>
+      </div>
+      <div class="main-content">
+        <div class="main-content__card todo">
+          <p class="main-content__title title-white"><span>&#128211</span>Нужно сделать</p>
+          <!-- Место для дел -->
+          <div id="main-todo">              
+              <!-- <div class="main-content__inside">
+                  <div class="inside__block">
+                      <div class="inside__text">
+                          Christmas Banners
+                      </div>
+                      <div class="inside__time todo title-white">11:20</div>
+                  </div>   
+                  
+                  <div class="navigation">
+                      <img class="go" src="img/checkbox-svgrepo-com 1.svg" alt="" title="Далее">
+                      <img class="cancel" src="img/x-circle-close-delete-svgrepo-com.svg" alt="" title="Удалить">
+                  </div>       
+              </div>            -->
+            </div>
+        </div>
+        <div class="main-content__card inprocess">
+          <p class="main-content__title title-white"><span>&#128187</span>В процессе</p>
+          <!-- Место для дел -->
+           <div id="main-inprocess"></div>
+        </div>
+        <div class="main-content__card done">
+          <p class="main-content__title title-black"><span>&#128640</span>Готово</p>
+          <!-- Место для дел -->
+          <div id="main-done"></div>
+        </div>        
+      </div>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>
