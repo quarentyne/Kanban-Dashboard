@@ -1,6 +1,6 @@
 'use strict'
 
-// import { openModal } from './modal/modal.js';
+// import openModal from './modal/modal.js';
 
 const btn = document.querySelector('#add-btn');
 const input = document.querySelector('#input-form');
@@ -40,10 +40,15 @@ function render(item) {
     }
 }
 
-function time() {
-    let h = new Date().getHours();
-    let m = new Date().getMinutes();
+function timeVisible(date) {
+    date = new Date(Date.parse(date));
+    let h = date.getHours();
+    let m = date.getMinutes();
     return (render(h) + ':' + render(m));
+}
+
+function time() {
+    return new Date();
 }
 
 function Task(description, time) {
@@ -56,8 +61,9 @@ function Inprocess(description) {
     this.time = time();
     this.status = 'inprocess';
 }
-function Done(description) {
+function Done(description, timeBefore) {
     this.description = description;
+    this.startTime = timeBefore;
     this.time = time();
     this.status = 'done';
 }
@@ -68,7 +74,7 @@ const todoTemplate = (task, index) => {
             <div class="inside__text">
                 ${task.description}
             </div>
-            <div class="inside__time todo title-white">${task.time}</div>
+            <div class="inside__time todo title-white">${timeVisible(task.time)}</div>
             </div>                   
             <div class="navigation">
                 <img class="go" onclick="startTask(${index})" src="img/checkbox-svgrepo-com 1.svg" alt="" title="Приступить к выполнению">
@@ -85,7 +91,7 @@ const inprocessTemplate = (task, index) => {
             <div class="inside__text">
                 ${task.description}
             </div>
-            <div class="inside__time inprocess title-white">${task.time}</div>
+            <div class="inside__time inprocess title-white">${timeVisible(task.time)}</div>
             </div>                   
             <div class="navigation">
                 <img class="go" onclick="endTask(${index})" src="img/checkbox-svgrepo-com 1.svg" alt="" title="Выполнено!">
@@ -101,7 +107,8 @@ const doneTemplate = (task, index) => {
             <div class="inside__text">
                 ${task.description}
             </div>
-            <div class="inside__time done title-black">${task.time}</div>
+            <div class="inside__time done title-black">${timeVisible(task.time)}</div>
+            <div class="inside__time done title-black">${getTime(task.startTime, task.time)}</div>
             </div>                   
             <div class="navigation">
                 <img class="cancel" onclick="deleteTask('${task.status}', ${index})" src="img/x-circle-close-delete-svgrepo-com.svg" alt="" title="Удалить">
@@ -179,7 +186,7 @@ function startTask(index) {
 }
 function endTask(index) {
     let item = tasksInprocess.splice(index, 1)
-    tasksDone.push(new Done(item[0].description))
+    tasksDone.push(new Done(item[0].description, item[0].time))
     updateLocal();
     fillInprocess();
     fillDone();

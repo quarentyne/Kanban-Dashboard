@@ -106,19 +106,21 @@ h1 {
 }
 .main-content__title {
   padding: 10px 0 10px 10px;
-  font-weight: 700;
+
   font-size: 18px;
   line-height: 138%;
   letter-spacing: -0.02em;
 }
 .main-content__title span {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 .title-white {
   color: #fff;
+  font-weight: 700;
 }
 .title-black {
   color: black;
+  font-weight: 700;
 }
 .main-content__inside {
   position: relative;

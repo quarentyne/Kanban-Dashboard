@@ -6,7 +6,7 @@ window.addEventListener('scroll', () => {
 
 
 function openModal() {
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = "hidden";
 
     let modalWindow = document.querySelector('.modalWrapper');
 
@@ -32,3 +32,5 @@ function openModal() {
     })
 
 }
+
+// export default openModal;
