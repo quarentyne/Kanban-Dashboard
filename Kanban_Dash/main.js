@@ -9,6 +9,13 @@ const done = document.querySelector('#main-done');
 const inprocess = document.querySelector('#main-inprocess');
 const go = document.getElementsByClassName('go');
 const cancel = document.querySelector('.cancel');
+const GOSVG = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.66667 3.5H23.3333C23.6428 3.5 23.9395 3.62292 24.1583 3.84171C24.3771 4.0605 24.5 4.35725 24.5 4.66667V23.3333C24.5 23.6428 24.3771 23.9395 24.1583 24.1583C23.9395 24.3771 23.6428 24.5 23.3333 24.5H4.66667C4.35725 24.5 4.0605 24.3771 3.84171 24.1583C3.62292 23.9395 3.5 23.6428 3.5 23.3333V4.66667C3.5 4.35725 3.62292 4.0605 3.84171 3.84171C4.0605 3.62292 4.35725 3.5 4.66667 3.5ZM5.83333 5.83333V22.1667H22.1667V5.83333H5.83333ZM12.8368 18.6667L7.88667 13.7165L9.53633 12.0668L12.8368 15.3673L19.4355 8.7675L21.0863 10.4172L12.8368 18.6667Z" fill="#008000"/>
+</svg>`;
+const CANCELSVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 12L16 16M16 8L12 12L16 8ZM12 12L8 16L12 12ZM12 12L8 8L12 12Z" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
 
 
 
@@ -77,8 +84,8 @@ const todoTemplate = (task, index) => {
             <div class="inside__time todo title-white">${timeVisible(task.time)}</div>
             </div>                   
             <div class="navigation">
-                <img class="go" onclick="startTask(${index})" src="img/checkbox-svgrepo-com 1.svg" alt="" title="Приступить к выполнению">
-                <img class="cancel" onclick="deleteTask('${task.status}', ${index})" src="img/x-circle-close-delete-svgrepo-com.svg" alt="" title="Удалить">
+                <button class="go" onclick="startTask(${index})" title="Приступить к выполнению">${GOSVG}</button>
+                <button class="cancel" onclick="deleteTask('${task.status}', ${index})" title="Удалить">${CANCELSVG}</button>
         </div>       
     </div>
     `
@@ -94,8 +101,8 @@ const inprocessTemplate = (task, index) => {
             <div class="inside__time inprocess title-white">${timeVisible(task.time)}</div>
             </div>                   
             <div class="navigation">
-                <img class="go" onclick="endTask(${index})" src="img/checkbox-svgrepo-com 1.svg" alt="" title="Выполнено!">
-                <img class="cancel" onclick="deleteTask('${task.status}', ${index})" src="img/x-circle-close-delete-svgrepo-com.svg" alt="" title="Удалить">
+                <button class="go" onclick="endTask(${index})" title="Выполнено!">${GOSVG}</button>
+                <button class="cancel" onclick="deleteTask('${task.status}', ${index})" title="Удалить">${CANCELSVG}</button>
         </div>       
     </div>
     `
@@ -111,7 +118,7 @@ const doneTemplate = (task, index) => {
             <div class="inside__time done title-black">${getTime(task.startTime, task.time)}</div>
             </div>                   
             <div class="navigation">
-                <img class="cancel" onclick="deleteTask('${task.status}', ${index})" src="img/x-circle-close-delete-svgrepo-com.svg" alt="" title="Удалить">
+                <button class="cancel" onclick="deleteTask('${task.status}', ${index})" title="Удалить">${CANCELSVG}</button>
         </div>       
     </div>
     `
@@ -210,9 +217,3 @@ function deleteTask(status, index) {
 fillTodo();
 fillInprocess();
 fillDone();
-
-
-
-
-
-

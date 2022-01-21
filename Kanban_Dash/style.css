@@ -130,7 +130,7 @@ h1 {
   border-radius: 4px;
 }
 .inside__block {
-  padding: 15px 10px;
+  padding: 15px 10px 10px 10px;
 }
 .inside__text {
   font-family: "Open Sans";
@@ -143,6 +143,7 @@ h1 {
   word-wrap: break-word;
 }
 .inside__time {
+  margin-top: 10px;
   padding: 5px;
   font-size: 11px;
   line-height: 10px;
@@ -171,6 +172,9 @@ h1 {
 .go,
 .cancel {
   cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 0;
 }
 @keyframes add {
   0% {
