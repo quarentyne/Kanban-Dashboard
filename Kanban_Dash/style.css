@@ -166,15 +166,31 @@ h1 {
   right: 10px;
   display: flex;
 }
-.go {
+.go,
+.pencil {
   margin-right: 3px;
 }
 .go,
-.cancel {
+.cancel,
+.pencil {
   cursor: pointer;
   border: none;
   background-color: transparent;
   padding: 0;
+}
+textarea {
+  width: 95%;
+  font-family: "Open Sans";
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 300;
+  color: #171717;
+  letter-spacing: -0.02em;
+  line-height: 150%;
+  word-wrap: break-word;
+  border: none;
+  resize: none;
+  padding-left: 3px;
 }
 @keyframes add {
   0% {
