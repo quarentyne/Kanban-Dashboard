@@ -214,16 +214,9 @@ function changeTask(text, status, index) {
     element.selectionStart = element.value.length;
 
     element.addEventListener('blur', () => {
-        while (element.value.endsWith('\n')) {
-            let lastIndex = element.value.lastIndexOf('\n');
-            element.value = element.value.slice(0, lastIndex);
+        if (element.value.includes('\n')) {
+            element.value = element.value.replace(/\n/g, " ");
         }
-
-        while (element.value.startsWith('\n')) {
-            let first = element.value.indexOf('\n');
-            element.value = element.value.slice(first + 1);
-        }
-
         localArray[index].description = element.value;
         updateLocal();
         fillTodo();
