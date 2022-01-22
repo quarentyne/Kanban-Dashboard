@@ -39,128 +39,68 @@ if (!localStorage.tasksTodo) {
 } else {
     tasksTodo = JSON.parse(localStorage.getItem('tasksTodo'));
 }
+
 if (!localStorage.tasksInprocess) {
     tasksInprocess = [];
 } else {
     tasksInprocess = JSON.parse(localStorage.getItem('tasksInprocess'));
 }
+
 if (!localStorage.tasksDone) {
     tasksDone = [];
 } else {
     tasksDone = JSON.parse(localStorage.getItem('tasksDone'));
 }
 
-function render(item) {
-    if (item < 10) {
-        return '0' + item;
-    } else {
-        return item;
+const template = (task, index) => {
+    let pencilButton = `<button class="pencil" onclick="changeTask('${task.description}','${task.status}', ${index})" title="Редактировать">${PENCIL}</button>`;
+    let goButton = '';
+    let time = `<div class="inside__time ${task.status} title-white">${timeVisible(task.time)}</div>`;
+    if (task.status === 'todo') {
+        goButton = `<button class="go" onclick="startTask(${index})" title='Приступить к выполнению'>${GOSVG}</button>`;
     }
-}
 
-function timeVisible(date) {
-    date = new Date(Date.parse(date));
-    let h = date.getHours();
-    let m = date.getMinutes();
-    return (render(h) + ':' + render(m));
-}
+    if (task.status === 'inprocess') {
+        goButton = `<button class="go" onclick="endTask(${index})" title="Выполнено!">${GOSVG}</button>`
+    }
 
-function time() {
-    return new Date();
-}
+    if (task.status === 'done') {
+        pencilButton = '';
+        time = `<div class="inside__time done title-black">${timeVisible(task.time)}</div>
+            <div class="inside__time done title-black">${getTime(task.startTime, task.time)}</div>`
+    }
 
-function Task(description, time, newItem) {
-    this.description = description;
-    this.time = time;
-    this.status = 'todo';
-    this.newItem = newItem;
-}
-function Inprocess(description, newItem) {
-    this.description = description;
-    this.time = time();
-    this.status = 'inprocess';
-    this.newItem = newItem;
-}
-function Done(description, timeBefore, newItem) {
-    this.description = description;
-    this.startTime = timeBefore;
-    this.time = time();
-    this.status = 'done';
-    this.newItem = newItem;
-}
-const todoTemplate = (task, index) => {
     return `
     <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
         <div class="inside__block">
             <div class="inside__text">
                 ${task.description}
             </div>
-            <div class="inside__time todo title-white">${timeVisible(task.time)}</div>
+            ${time}
             </div>                   
             <div class="navigation">
-                <button class="pencil" onclick="changeTask('${task.description}','${task.status}', ${index})" title="Редактировать">${PENCIL}</button>
-                <button class="go" onclick="startTask(${index})" title="Приступить к выполнению">${GOSVG}</button>
+                ${pencilButton}
+                ${goButton}
                 <button class="cancel" onclick="deleteTask('${task.status}', ${index})" title="Удалить">${CANCELSVG}</button>
         </div>       
     </div>
     `
 }
 
-const inprocessTemplate = (task, index) => {
-    return `
-    <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
-        <div class="inside__block">
-            <div class="inside__text">
-                ${task.description}
-            </div>
-            <div class="inside__time inprocess title-white">${timeVisible(task.time)}</div>
-            </div>                   
-            <div class="navigation">
-                <button class="pencil" onclick="changeTask('${task.description}','${task.status}', ${index})" title="Редактировать">${PENCIL}</button>
-                <button class="go" onclick="endTask(${index})" title="Выполнено!">${GOSVG}</button>
-                <button class="cancel" onclick="deleteTask('${task.status}', ${index})" title="Удалить">${CANCELSVG}</button>
-        </div>       
-    </div>
-    `
-}
-const doneTemplate = (task, index) => {
-    return `
-    <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
-        <div class="inside__block">
-            <div class="inside__text">
-                ${task.description}
-            </div>
-            <div class="inside__time done title-black">${timeVisible(task.time)}</div>
-            <div class="inside__time done title-black">${getTime(task.startTime, task.time)}</div>
-            </div>                   
-            <div class="navigation">
-                <button class="cancel" onclick="deleteTask('${task.status}', ${index})" title="Удалить">${CANCELSVG}</button>
-        </div>       
-    </div>
-    `
-}
-// const newTodo = () => {
-//     console.log(todo.innerHTML);
-//     todo.innerHTML += todoTemplate(tasksTodo[tasksTodo.length - 1], tasksTodo.length - 1, true);
-// }
 const fillTodo = () => {
     todo.innerHTML = '';
     if (tasksTodo.length > 0) {
         tasksTodo.forEach((item, index) => {
-            todo.innerHTML += todoTemplate(item, index);
+            todo.innerHTML += template(item, index);
         })
     }
-    // setTimeout(() => {
-    //     const animation = document.getElementsByClassName('new');
-    //     animation[0].classList.remove('new');
-    // }, 500)
 }
 
 const fillInprocess = () => {
     inprocess.innerHTML = '';
     if (tasksInprocess.length > 0) {
         tasksInprocess.forEach((item, index) => {
-            inprocess.innerHTML += inprocessTemplate(item, index);
+            inprocess.innerHTML += template(item, index);
         })
     }
 }
@@ -169,7 +109,7 @@ const fillDone = () => {
     done.innerHTML = '';
     if (tasksDone.length > 0) {
         tasksDone.forEach((item, index) => {
-            done.innerHTML += doneTemplate(item, index);
+            done.innerHTML += template(item, index);
         })
     }
 }
@@ -197,6 +137,29 @@ input.addEventListener('keydown', function (e) {
     }
 });
 
+
+function Task(description, time, newItem) {
+    this.description = description;
+    this.time = time;
+    this.status = 'todo';
+    this.newItem = newItem;
+}
+
+function Inprocess(description, newItem) {
+    this.description = description;
+    this.time = time();
+    this.status = 'inprocess';
+    this.newItem = newItem;
+}
+
+function Done(description, timeBefore, newItem) {
+    this.description = description;
+    this.startTime = timeBefore;
+    this.time = time();
+    this.status = 'done';
+    this.newItem = newItem;
+}
+
 function startTask(index) {
     if (tasksInprocess.length < 3) {
         let item = tasksTodo.splice(index, 1)
@@ -210,6 +173,7 @@ function startTask(index) {
         openModal();
     }
 }
+
 function endTask(index) {
     let item = tasksInprocess.splice(index, 1)
     tasksDone.push(new Done(item[0].description, item[0].time, true))
@@ -237,6 +201,7 @@ function deleteTask(status, index) {
 }
 function changeTask(text, status, index) {
     let localArray;
+
     if (status === 'todo') {
         status = todo;
         localArray = tasksTodo;
@@ -244,26 +209,30 @@ function changeTask(text, status, index) {
         status = inprocess;
         localArray = tasksInprocess;
     }
+
     let textInside = status.querySelectorAll('.inside__text');
     textInside[index].innerHTML = `<textarea id="textarea">${text}</textarea><p class="textarea__help">Нажмите <span>ESC</span> для отмены</p>`;
     const element = document.getElementById('textarea');
     element.focus();
     element.selectionStart = element.value.length;
+
     element.addEventListener('blur', () => {
         while (element.value.endsWith('\n')) {
             let lastIndex = element.value.lastIndexOf('\n');
             element.value = element.value.slice(0, lastIndex);
+        }
 
-        } while (element.value.startsWith('\n')) {
+        while (element.value.startsWith('\n')) {
             let first = element.value.indexOf('\n');
             element.value = element.value.slice(first + 1);
-            console.log(element.value);
         }
+
         localArray[index].description = element.value;
         updateLocal();
         fillTodo();
         fillInprocess();
     })
+
     element.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
             element.value = localArray[index].description;
@@ -271,6 +240,26 @@ function changeTask(text, status, index) {
         }
     })
 }
+
+function render(item) {
+    if (item < 10) {
+        return '0' + item;
+    } else {
+        return item;
+    }
+}
+
+function timeVisible(date) {
+    date = new Date(Date.parse(date));
+    let h = date.getHours();
+    let m = date.getMinutes();
+    return (render(h) + ':' + render(m));
+}
+
+function time() {
+    return new Date();
+}
+
 fillTodo();
 fillInprocess();
 fillDone();
