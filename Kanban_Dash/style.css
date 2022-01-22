@@ -153,7 +153,7 @@ h1 {
   border-radius: 2px;
   display: inline-block;
 }
-.main-content__inside:last-child {
+.newItem {
   opacity: 0;
   transition: 0.5s ease;
   animation: add 1s 1;

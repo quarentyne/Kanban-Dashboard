@@ -69,25 +69,28 @@ function time() {
     return new Date();
 }
 
-function Task(description, time) {
+function Task(description, time, newItem) {
     this.description = description;
     this.time = time;
     this.status = 'todo';
+    this.newItem = newItem;
 }
-function Inprocess(description) {
+function Inprocess(description, newItem) {
     this.description = description;
     this.time = time();
     this.status = 'inprocess';
+    this.newItem = newItem;
 }
-function Done(description, timeBefore) {
+function Done(description, timeBefore, newItem) {
     this.description = description;
     this.startTime = timeBefore;
     this.time = time();
     this.status = 'done';
+    this.newItem = newItem;
 }
 const todoTemplate = (task, index) => {
     return `
-    <div class="main-content__inside">
+    <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
         <div class="inside__block">
             <div class="inside__text">
                 ${task.description}
@@ -105,7 +108,7 @@ const todoTemplate = (task, index) => {
 
 const inprocessTemplate = (task, index) => {
     return `
-    <div class="main-content__inside">
+    <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
         <div class="inside__block">
             <div class="inside__text">
                 ${task.description}
@@ -122,7 +125,7 @@ const inprocessTemplate = (task, index) => {
 }
 const doneTemplate = (task, index) => {
     return `
-    <div class="main-content__inside">
+    <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
         <div class="inside__block">
             <div class="inside__text">
                 ${task.description}
@@ -179,10 +182,11 @@ const updateLocal = () => {
 
 btn.addEventListener('click', () => {
     if (input.value.trim()) {
-        tasksTodo.push(new Task(input.value, time()));
+        tasksTodo.push(new Task(input.value, time(), true));
         updateLocal();
         fillTodo();
-        // newTodo();
+        tasksTodo[tasksTodo.length - 1].newItem = false;
+        updateLocal();
     }
     input.value = "";
 })
@@ -196,20 +200,24 @@ input.addEventListener('keydown', function (e) {
 function startTask(index) {
     if (tasksInprocess.length < 3) {
         let item = tasksTodo.splice(index, 1)
-        tasksInprocess.push(new Inprocess(item[0].description))
+        tasksInprocess.push(new Inprocess(item[0].description, true))
         updateLocal();
         fillTodo();
         fillInprocess();
+        tasksInprocess[tasksInprocess.length - 1].newItem = false;
+        updateLocal();
     } else {
         openModal();
     }
 }
 function endTask(index) {
     let item = tasksInprocess.splice(index, 1)
-    tasksDone.push(new Done(item[0].description, item[0].time))
+    tasksDone.push(new Done(item[0].description, item[0].time, true))
     updateLocal();
     fillInprocess();
     fillDone();
+    tasksDone[tasksDone.length - 1].newItem = false;
+    updateLocal();
 }
 
 function deleteTask(status, index) {
