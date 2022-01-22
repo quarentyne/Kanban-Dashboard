@@ -237,7 +237,7 @@ function changeTask(text, status, index) {
         localArray = tasksInprocess;
     }
     let textInside = status.querySelectorAll('.inside__text');
-    textInside[index].innerHTML = `<textarea id="textarea">${text}</textarea>`;
+    textInside[index].innerHTML = `<textarea id="textarea">${text}</textarea><p class="textarea__help">Нажмите <span>ESC</span> для отмены</p>`;
     const element = document.getElementById('textarea');
     element.focus();
     element.selectionStart = element.value.length;

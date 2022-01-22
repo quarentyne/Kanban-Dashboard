@@ -191,6 +191,20 @@ textarea {
   border: none;
   resize: none;
   padding-left: 3px;
+  position: relative;
+}
+.textarea__help {
+  font-style: normal;
+  position: absolute;
+  bottom: 25px;
+  left: 21%;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgb(17, 17, 17);
+}
+.textarea__help span {
+  font-weight: bold;
+  color: #0a2df5;
 }
 @keyframes add {
   0% {
