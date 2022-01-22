@@ -69,7 +69,10 @@ const template = (task, index) => {
         time = `<div class="inside__time done title-black">${timeVisible(task.time)}</div>
             <div class="inside__time done title-black">${getTime(task.startTime, task.time)}</div>`
     }
-
+    setTimeout(() => {
+        task.newItem = false;
+        updateLocal();
+    }, 0)
     return `
     <div class="main-content__inside ${task.newItem ? 'newItem' : ''}">
         <div class="inside__block">
@@ -125,8 +128,6 @@ btn.addEventListener('click', () => {
         tasksTodo.push(new Task(input.value, time(), true));
         updateLocal();
         fillTodo();
-        tasksTodo[tasksTodo.length - 1].newItem = false;
-        updateLocal();
     }
     input.value = "";
 })
@@ -167,8 +168,6 @@ function startTask(index) {
         updateLocal();
         fillTodo();
         fillInprocess();
-        tasksInprocess[tasksInprocess.length - 1].newItem = false;
-        updateLocal();
     } else {
         openModal();
     }
@@ -180,8 +179,6 @@ function endTask(index) {
     updateLocal();
     fillInprocess();
     fillDone();
-    tasksDone[tasksDone.length - 1].newItem = false;
-    updateLocal();
 }
 
 function deleteTask(status, index) {
