@@ -212,12 +212,29 @@ function changeTask(text, status, index) {
     const element = document.getElementById('textarea');
     element.focus();
     element.selectionStart = element.value.length;
+    //Edit textarea for full size
+    element.addEventListener('input', (e) => fixTextareaSize(e.target));
+    fixTextareaSize(textarea);
 
+    //Save changing
     element.addEventListener('blur', () => {
         if (element.value.includes('\n')) {
             element.value = element.value.replace(/\n/g, " ");
         }
-        localArray[index].description = element.value;
+        //Checking for empty values;
+        if (element.value === '') {
+            element.value = localArray[index].description;
+        }
+        const arr = element.value.split('');
+        for (let item of arr) {
+            console.log(item);
+            if (item !== " ") {
+                localArray[index].description = element.value;
+                break;
+            }
+        }
+        element.value = localArray[index].description;
+
         updateLocal();
         fillTodo();
         fillInprocess();
@@ -230,7 +247,9 @@ function changeTask(text, status, index) {
         }
     })
 }
-
+function fixTextareaSize(textarea) {
+    textarea.style.height = textarea.scrollHeight + "px"
+}
 function render(item) {
     if (item < 10) {
         return '0' + item;

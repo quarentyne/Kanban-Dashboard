@@ -180,6 +180,7 @@ h1 {
 }
 textarea {
   width: 95%;
+  height: auto;
   font-family: "Open Sans";
   font-style: italic;
   font-size: 17px;
